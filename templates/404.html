@@ -1,0 +1,17 @@
+{% extends "layout2.html" %} {% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-lg-12 text-center">
+			<h1 class="mt-5">404 Pagina no encontrada 😡</h1>
+			<p class="lead">
+				Pagina no encontrada. Por favor
+				<a href="javascript:history.back()">regrese</a> a la pagina
+				anterior o
+				<a href="{{url_for('index')}}">vuelva al inicio</a>.
+			</p>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
