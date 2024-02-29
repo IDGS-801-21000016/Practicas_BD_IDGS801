@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request
 from forms import UserForm
-from flask import flash 
+from flask import flash,redirect
 from flask import g
 from flask_wtf.csrf import CSRFProtect
-from config import DevConfig, Config
+from config import DevConfig
 app = Flask(__name__)
 from models import db
-from forms import UserForm
-from models import Alumnos
+from forms import UserForm,EmpleadoForm
+from models import Alumnos,Empleados
+
 
 
 app.config.from_object(DevConfig)
@@ -17,8 +18,7 @@ csrf = CSRFProtect(app)
 @app.route('/', methods=['GET', 'POST'])
 def index():
         usuario_form = UserForm(request.form)
-        if request.method == 'POST':
-                print("Metodo POST")
+        if request.method == 'POST' and usuario_form.validate():
                 try:
                         alumno = Alumnos(nombre=usuario_form.nombre.data, apaterno=usuario_form.a_paterno.data, email=usuario_form.email.data)
                         db.session.add(alumno)
@@ -28,6 +28,30 @@ def index():
                         print(f"Error en la base de datos: {e}")
                         db.session.rollback()                        
         return render_template('index.html', form=usuario_form)
+
+
+@app.route('/empleados', methods=['GET', 'POST'])
+def empleados():
+        empleado_form = EmpleadoForm(request.form)
+        if request.method == 'POST' and empleado_form.validate():
+                try:
+                        empleado = Empleados(nombre=empleado_form.nombre.data, dirección=empleado_form.dirección.data, telefono=empleado_form.telefono.data, correo=empleado_form.correo.data, sueldo=empleado_form.sueldo.data)
+                        print(empleado)
+                        db.session.add(empleado)
+                        db.session.commit()
+                        print("Empleado guardado")
+                        return redirect("/empleados/tabla")
+                except Exception as e:
+                        print(f"Error en la base de datos: {e}")
+                        db.session.rollback()                        
+        return render_template('empleados.html', form=empleado_form)
+
+@app.route('/empleados/tabla', methods=['GET'])
+def tabla_empleados():
+        empleados = Empleados.query.all()
+        return render_template('tabla_empleado.html', empleados=empleados)
+
+
 
 @app.route('/alumnos', methods=['GET', 'POST'])
 def alumnos():
