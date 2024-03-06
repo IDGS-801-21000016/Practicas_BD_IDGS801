@@ -1,0 +1,130 @@
+{% extends "layout3.html" %} {% import '_macros.html' as macros %} {%
+block content %}
+
+<main>
+	<form method="POST" novalidate id="form">
+		<div class="hidden">
+			{{macros.camposNuevos(form.id, class="hidden")}}
+		</div>
+		<input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
+		<div class="flex flex-row justify-between items-center">
+			{{macros.camposNuevos(form.Nombre, class="input w-full max-w-xs
+			input input-bordered")}} {{macros.camposNuevos(form.Direccion,
+			class="input w-full max-w-xs input input-bordered")}}
+			{{macros.camposNuevos(form.Telefono, class="input w-full
+			max-w-xs input input-bordered")}}
+		</div>
+
+		<div class="flex flex-row justify-between items-center mt-4">
+			<div class="border-2 border-gray-300 p-4 rounded-lg h-56">
+				<label> Tamaño Pizza </label>
+				<div>{{macros.camposNuevos(form.Tamanio)}}</div>
+			</div>
+
+			<div class="border-2 border-gray-300 p-4 rounded-lg">
+				<label> Ingredientes </label>
+				<div>
+					{{macros.camposNuevos(form.Jamon,class="toggle
+					toggle-info")}}
+				</div>
+				<div>
+					{{macros.camposNuevos(form.Pina,class="toggle
+					toggle-info")}}
+				</div>
+				<div>
+					{{macros.camposNuevos(form.Champinones,class="toggle
+					toggle-info")}}
+				</div>
+			</div>
+
+			<div>
+				<div>
+					{{macros.camposNuevos(form.NumPizzas, class="input
+					input-bordered")}}
+				</div>
+
+				<div>
+					<button class="btn btn-primary">Agregar</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="flex flex-row justify-between items-center mt-4">
+			<div>
+				<div class="overflow-x-auto max-h-40 overflow-auto">
+					<table class="table table-zebra">
+						<thead>
+							<th></th>
+							<th>Tamaño</th>
+							<th>Ingredientes</th>
+							<th>Cantidad</th>
+							<th>Subtotal</th>
+						</thead>
+						<tbody>
+							{% for pizza in pizzas %}
+							<tr>
+								<td id="{{pizza.id}}">
+									<!-- agregar el id de la pizza -->
+									<input
+										type="checkbox"
+										name="pizzas[]"
+										id="pizzas"
+									/>
+								</td>
+								<td>{{pizza.tamanio}}</td>
+								<td>
+									{% if pizza.jamon %} Jamon {% endif %} {% if
+									pizza.pina %} Pina {% endif %} {% if
+									pizza.champinones %} Champinones {% endif %}
+								</td>
+								<td>{{pizza.numPizzas}}</td>
+								<td>{{pizza.subtotal}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<input type="hidden" name="terminar" />
+				<div>
+					<button
+						id="quitar"
+						type="button"
+						class="btn btn-secondary text-white mt-4"
+					>
+						Quitar
+					</button>
+
+					<button
+						type="button"
+						id="terminar"
+						class="btn btn-primary text-white mt-4"
+					>
+						Terminar
+					</button>
+				</div>
+			</div>
+
+			<div class="flex flex-col justify-between items-center mt-4">
+				<div
+					class="overflow-x-auto max-h-40 overflow-auto border-2 border-gray-300 p-4 rounded-lg"
+				>
+					<span id="label_ventas">Ventas del dia</span>
+
+					<div id="ventasContainer">
+						{% for v in ventas %}
+
+						<p>{{v.nombreCliente}} total {{v.total}}</p>
+
+						{% endfor %}
+
+						<p>Total: {{total_ventas}}</p>
+					</div>
+				</div>
+
+				<button id="ventas" type="button">Ventas por mes</button>
+			</div>
+		</div>
+	</form>
+</main>
+
+{% endblock %}
