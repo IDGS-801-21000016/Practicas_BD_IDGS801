@@ -55,6 +55,13 @@ class ventaFinal(db.Model):
     nombreCliente: str = db.Column(db.String(50))
     total: float = db.Column(db.Float)
     fecha_compra: datetime = db.Column(db.DateTime, default=datetime.datetime.now)
+    dia = db.Column(db.String(50))
+    mes = db.Column(db.String(50))
+    anio = db.Column(db.String(50))
+
+
+
+    
     
 
 

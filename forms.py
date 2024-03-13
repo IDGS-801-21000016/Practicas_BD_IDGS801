@@ -1,6 +1,6 @@
 
 from flask_wtf import Form
-from wtforms import StringField, IntegerField, EmailField,FloatField,RadioField,BooleanField
+from wtforms import StringField, IntegerField, EmailField,FloatField,RadioField,BooleanField,SelectField,DateField
 # importamos los validadores de WTForms
 from wtforms.validators import DataRequired, Length, Email
 
@@ -25,6 +25,7 @@ class PizzeriaForm(Form):
     id = StringField('id')
     Nombre = StringField('nombre',validators=[DataRequired(message="El campo es requerido"), Length(4, 50, "Ingresa un nombre valido")])
     Direccion = StringField('direccion', validators=[DataRequired(message="El campo es requerido")])
+    fecha = DateField('fecha', validators=[DataRequired(message="El campo es requerido")])
     Telefono = StringField('telefono', validators=[Length(4, 50, "Ingresa un telefono valido min 4 max 50"), DataRequired(message="El campo es requerido")])
     NumPizzas = IntegerField('numPizzas', validators=[DataRequired(message="El campo es requerido")])
     Tamanio = RadioField('tamanio', choices=[('chica', 'Chica $40'), ('mediana', 'Mediana $80'), ('grande', 'Grande $120')], validators=[DataRequired(message="El campo es requerido")], default='chica')

@@ -2,54 +2,63 @@
 block content %}
 
 <main>
+	<script src="../static/main.js" type="module"></script>
 	<form method="POST" novalidate id="form">
 		<div class="hidden">
 			{{macros.camposNuevos(form.id, class="hidden")}}
 		</div>
 		<input type="hidden" name="csrf_token" value="{{csrf_token()}}" />
-		<div class="flex flex-row justify-between items-center">
-			{{macros.camposNuevos(form.Nombre, class="input w-full max-w-xs
-			input input-bordered")}} {{macros.camposNuevos(form.Direccion,
-			class="input w-full max-w-xs input input-bordered")}}
-			{{macros.camposNuevos(form.Telefono, class="input w-full
-			max-w-xs input input-bordered")}}
-		</div>
-
-		<div class="flex flex-row justify-between items-center mt-4">
-			<div class="border-2 border-gray-300 p-4 rounded-lg h-56">
-				<label> Tamaño Pizza </label>
-				<div>{{macros.camposNuevos(form.Tamanio)}}</div>
+		<section
+			class="bg-blue-100 p-4 rounded-lg border-2 border-gray-300"
+		>
+			<div class="flex flex-row justify-between items-center">
+				{{macros.camposNuevos(form.Nombre, class="input input-bordered
+				w-full max-w-xs")}} {{macros.camposNuevos(form.Direccion,
+				class="input w-full max-w-xs input input-bordered")}}
+				{{macros.camposNuevos(form.Telefono, class="input w-full
+				max-w-xs input input-bordered")}} {{
+				macros.camposNuevos(form.fecha, class="input w-full max-w-xs
+				input-bordered") }}
 			</div>
 
-			<div class="border-2 border-gray-300 p-4 rounded-lg">
-				<label> Ingredientes </label>
-				<div>
-					{{macros.camposNuevos(form.Jamon,class="toggle
-					toggle-info")}}
+			<div class="flex flex-row justify-between items-center mt-4">
+				<div class="border-2 border-gray-300 p-4 rounded-lg h-56">
+					<label> Tamaño Pizza </label>
+					<div>{{macros.camposNuevos(form.Tamanio)}}</div>
 				</div>
-				<div>
-					{{macros.camposNuevos(form.Pina,class="toggle
-					toggle-info")}}
+
+				<div class="border-2 border-gray-300 p-4 rounded-lg">
+					<label> Ingredientes </label>
+					<div>
+						{{macros.camposNuevos(form.Jamon,class="toggle
+						toggle-info")}}
+					</div>
+					<div>
+						{{macros.camposNuevos(form.Pina,class="toggle
+						toggle-info")}}
+					</div>
+					<div>
+						{{macros.camposNuevos(form.Champinones,class="toggle
+						toggle-info")}}
+					</div>
 				</div>
+
 				<div>
-					{{macros.camposNuevos(form.Champinones,class="toggle
-					toggle-info")}}
+					<div>
+						{{macros.camposNuevos(form.NumPizzas, class="input
+						input-bordered")}}
+					</div>
+
+					<div class="flex flex-row justify-center items-center mt-4">
+						<button class="btn btn-primary">Agregar</button>
+					</div>
 				</div>
 			</div>
+		</section>
 
-			<div>
-				<div>
-					{{macros.camposNuevos(form.NumPizzas, class="input
-					input-bordered")}}
-				</div>
-
-				<div>
-					<button class="btn btn-primary">Agregar</button>
-				</div>
-			</div>
-		</div>
-
-		<div class="flex flex-row justify-between items-center mt-4">
+		<div
+			class="flex flex-row justify-between items-center mt-4 bg-blue-100 p-4 rounded-lg border-2 border-gray-300"
+		>
 			<div>
 				<div class="overflow-x-auto max-h-40 overflow-auto">
 					<table class="table table-zebra">
@@ -85,11 +94,11 @@ block content %}
 					</table>
 				</div>
 				<input type="hidden" name="terminar" />
-				<div>
+				<div class="flex flex-row justify-between items-center mt-4">
 					<button
 						id="quitar"
 						type="button"
-						class="btn btn-secondary text-white mt-4"
+						class="btn btn-accent mt-4"
 					>
 						Quitar
 					</button>
@@ -97,7 +106,7 @@ block content %}
 					<button
 						type="button"
 						id="terminar"
-						class="btn btn-primary text-white mt-4"
+						class="btn btn-success mt-4 text-"
 					>
 						Terminar
 					</button>
@@ -106,22 +115,54 @@ block content %}
 
 			<div class="flex flex-col justify-between items-center mt-4">
 				<div
-					class="overflow-x-auto max-h-40 overflow-auto border-2 border-gray-300 p-4 rounded-lg"
+					class="overflow-x-auto max-h-40 overflow-auto border-2 border-gray-300 p-4 rounded-lg w-[500px]"
 				>
 					<span id="label_ventas">Ventas del dia</span>
 
+					<label>
+						Selecciona el dia o mes
+						<input
+							type="list"
+							name="diaMes"
+							list="diaMes"
+							id="diaMest"
+						/>
+					</label>
+
+					<datalist id="diaMes">
+						<option value="Lunes">Lunes</option>
+						<option value="Martes">Martes</option>
+						<option value="Miercoles">Miercoles</option>
+						<option value="Jueves">Jueves</option>
+						<option value="Viernes">Viernes</option>
+						<option value="Sabado">Sabado</option>
+						<option value="Domingo">Domingo</option>
+						<option value="Enero">Enero</option>
+						<option value="Febrero">Febrero</option>
+						<option value="Marzo">Marzo</option>
+						<option value="Abril">Abril</option>
+						<option value="Mayo">Mayo</option>
+						<option value="Junio">Junio</option>
+						<option value="Julio">Julio</option>
+						<option value="Agosto">Agosto</option>
+						<option value="Septiembre">Septiembre</option>
+						<option value="Octubre">Octubre</option>
+						<option value="Noviembre">Noviembre</option>
+						<option value="Diciembre">Diciembre</option>
+					</datalist>
+
 					<div id="ventasContainer">
 						{% for v in ventas %}
-
 						<p>{{v.nombreCliente}} total {{v.total}}</p>
-
 						{% endfor %}
 
 						<p>Total: {{total_ventas}}</p>
 					</div>
 				</div>
 
-				<button id="ventas" type="button">Ventas por mes</button>
+				<button id="ventas" type="button" class="btn btn-info mt-4">
+					Buscar
+				</button>
 			</div>
 		</div>
 	</form>

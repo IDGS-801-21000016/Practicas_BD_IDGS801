@@ -1,17 +1,19 @@
 let total = 0;
+console.log('main.js loaded');
 document
 	.getElementById('terminar')
-	.addEventListener('click', function () {
-		// Hacer un reduce para sumar todos los subtotales que no han sido removidos
-		total = Array.from(
-			document.querySelectorAll('td input[type="checkbox"]')
-		).reduce((acc, checkbox) => {
-			return (
-				acc +
-				Number(
-					checkbox.closest('tr').querySelectorAll('td')[4].innerText
-				)
-			);
+	.addEventListener('click', function (e) {
+		// Obtener todas las celdas de subtotal
+		const subtotalCells =
+			document.querySelectorAll('td:nth-child(5)');
+
+		// Sumar los subtotales
+		total = Array.from(subtotalCells).reduce((acc, el) => {
+			const subtotal = parseFloat(el.textContent);
+			if (!isNaN(subtotal)) {
+				return acc + subtotal;
+			}
+			return acc;
 		}, 0);
 
 		// Muestra la confirmación después de cada cambio
@@ -24,7 +26,8 @@ document
 			// Fetch para terminar la orden
 			let json = {
 				ids: JSON.stringify(ids),
-				id_cliente: document.querySelector('input[name="id"]').value
+				id_cliente: document.querySelector('input[name="id"]').value,
+				fecha: document.querySelector('input[name="fecha"]').value
 			};
 
 			fetch('/pizza', {
@@ -35,10 +38,8 @@ document
 						'input[name="csrf_token"]'
 					).value
 				},
-				redirect: 'follow',
 				body: JSON.stringify(json)
 			}).then(response => {
-				console.log({ response });
 				window.location.href = response.url;
 			});
 		}
@@ -91,19 +92,6 @@ document
 	.getElementById('ventas')
 	.addEventListener('click', function () {
 		//cambiar el texto del boton y label por mes o dia
-		let label = document.getElementById('label_ventas');
-		let button = document.getElementById('ventas');
-		let dayOrMonth;
-
-		if (label.innerText === 'Ventas del dia') {
-			label.innerText = 'Ventas por mes';
-			button.innerText = 'Ventas por dia';
-			dayOrMonth = 'mes';
-		} else {
-			label.innerText = 'Ventas del dia';
-			button.innerText = 'Ventas por mes';
-			dayOrMonth = 'day';
-		}
 
 		// Fetch para obtener las ventas
 		fetch('/ventasByDayOrMonth', {
@@ -115,7 +103,9 @@ document
 				).value
 			},
 			body: JSON.stringify({
-				dayOrMonth
+				dayOrMonth: String(
+					document.getElementById('diaMest').value
+				).toLocaleLowerCase()
 			})
 		})
 			.then(response => response.json())
